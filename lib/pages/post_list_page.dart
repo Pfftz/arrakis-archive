@@ -288,9 +288,11 @@ class _PostAvatar extends StatelessWidget {
         radius: 24,
         backgroundColor: const Color(0xFF2c1810),
         backgroundImage: NetworkImage(
-          'https://picsum.dev/300/200?random=${post.id}',
+          'https://picsum.photos/200/200?random=${post.id}',
         ),
-        onBackgroundImageError: (exception, stackTrace) {},
+        onBackgroundImageError: (exception, stackTrace) {
+          print('Error loading image: $exception');
+        },
         child: Text(
           post.id.toString(),
           style: const TextStyle(

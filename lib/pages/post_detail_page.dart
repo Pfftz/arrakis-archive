@@ -136,13 +136,18 @@ class _PostHeader extends StatelessWidget {
                   radius: 24,
                   backgroundColor: const Color(0xFF2c1810),
                   backgroundImage: NetworkImage(
-                    'https://picsum.dev/300/200?random=${post.id}',
+                    'https://picsum.photos/200/200?random=${post.id}',
                   ),
-                  onBackgroundImageError: (exception, stackTrace) {},
-                  child: const Icon(
-                    Icons.person,
-                    color: Color(0xFFb29254),
-                    size: 24,
+                  onBackgroundImageError: (exception, stackTrace) {
+                    print('Error loading image: $exception');
+                  },
+                  child: Text(
+                    post.id.toString(),
+                    style: const TextStyle(
+                      color: Color(0xFFe79b07),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ),

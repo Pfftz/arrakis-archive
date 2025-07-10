@@ -249,7 +249,7 @@ class _AvatarImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = 'https://picsum.dev/300/200?random=$index';
+    final imageUrl = 'https://picsum.photos/200/200?random=${index + 1}';
 
     return Container(
       width: 50,
@@ -270,9 +270,16 @@ class _AvatarImage extends StatelessWidget {
         backgroundColor: const Color(0xFF2c1810),
         backgroundImage: NetworkImage(imageUrl),
         onBackgroundImageError: (exception, stackTrace) {
-          // Handle image load error
+          print('Error loading image: $exception');
         },
-        child: const Icon(Icons.person, color: Color(0xFFb29254), size: 24),
+        child: Text(
+          '${index + 1}',
+          style: const TextStyle(
+            color: Color(0xFFe79b07),
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
       ),
     );
   }

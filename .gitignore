@@ -43,3 +43,46 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Web related
+/web/build/
+
+# Windows, macOS, Linux build outputs
+/windows/build/
+/macos/build/
+/linux/build/
+
+# Environment variables and secrets
+.env
+.env.local
+.env.production
+.env.development
+*.env
+
+# API keys and sensitive configuration
+lib/config/api_keys.dart
+lib/config/secrets.dart
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Generated files
+*.g.dart
+*.freezed.dart
+*.chopper.dart
+
+# Firebase related (if using Firebase)
+firebase_options.dart
+google-services.json
+GoogleService-Info.plist
+
+# Temporary files
+*.tmp
+*.temp
+.fvm/

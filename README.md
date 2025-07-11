@@ -24,9 +24,9 @@
 **Arrakis Archive** is more than just a mobile application—it's a digital testament to the power of knowledge preservation in the vast desert of information. Built with the precision of a Fremen's stillsuit and the elegance of a Guild Navigator's prescience, this Flutter application serves as your personal chronicle keeper.
 
 <div align="center">
-  <img src="assets/images/1.jpg" alt="Desert Vista" width="200" />
-  <img src="assets/images/2.jpg" alt="Golden Sands" width="200" />
-  <img src="assets/images/3.jpg" alt="Dune Landscape" width="200" />
+  <img src="assets/images/postlist.png" alt="Desert Vista" width="200" />
+  <img src="assets/images/detailpost.png" alt="Golden Sands" width="200" />
+  <img src="assets/images/commentpage.png" alt="Dune Landscape" width="200" />
 </div>
 
 ---
@@ -37,9 +37,12 @@
 
 -   📜 **Post Archives**: Chronicle your thoughts like a Mentat's perfect memory
 -   💬 **Comment Threads**: Engage in discourse worthy of the Landsraad
--   🎨 **Dune-Inspired UI**: Golden sands and desert winds guide the interface
+-   � **Desert Winds Symphony**: Immersive background music with draggable controls
+-   🖼️ **Visual Chronicles**: Dynamic images from Picsum API for each post
+-   �🎨 **Dune-Inspired UI**: Golden sands and desert winds guide the interface
+-   📱 **Responsive Design**: Seamless experience across mobile, web, and desktop
 -   🌐 **Cross-Platform**: Works across all devices like the reach of the Spacing Guild
--   🔄 **Real-time Updates**: Information flows as constantly as spice through the universe
+-   🎮 **Interactive Controls**: iPhone-style floating music button with gesture support
 
 ---
 
@@ -49,6 +52,11 @@
 
 -   **Framework**: Flutter (The chosen technology of the future)
 -   **Language**: Dart (As precise as Fremen blade work)
+-   **State Management**: GetX for reactive state and dependency injection
+-   **Audio System**: AudioPlayers for immersive desert soundscapes
+-   **API Integration**: HTTP client for JSONPlaceholder API
+-   **Image Loading**: Network images with error handling and loading states
+-   **Navigation**: Flutter Navigator with MaterialPageRoute
 -   **Fonts**:
     -   🏺 **Dune Rise** - For headers that command like Muad'Dib
     -   📚 **DidotLT** - For content as refined as Caladan's culture
@@ -89,6 +97,16 @@ Dart SDK >= 3.0.0
     ```bash
     flutter run
     ```
+    
+4. **For Web Support:**
+    ```bash
+    flutter config --enable-web
+    flutter run -d chrome
+    ```
+
+5. **Audio Setup:**
+   - Ensure `assets/audio/dune.mp3` exists for background music
+   - Web browsers require user interaction before playing audio
 
 ### Available Platforms
 
@@ -106,14 +124,24 @@ Dart SDK >= 3.0.0
 ```
 arrakis-archive/
 ├── 🎨 assets/
+│   ├── audio/           # Desert winds symphony (dune.mp3)
 │   ├── fonts/           # Sacred typography of the desert
 │   └── images/          # Visual chronicles of Arrakis
 ├── 📚 lib/
 │   ├── controllers/     # The navigators of data flow
-│   ├── models/         # Blueprints of digital spice
-│   ├── pages/          # The interfaces users traverse
-│   └── main.dart       # The genesis file
-└── 🧪 test/            # Trials to ensure perfection
+│   │   ├── audio_controller.dart      # Music system management
+│   │   ├── music_control_widget.dart  # Draggable audio controls
+│   │   ├── controller_post.dart       # Posts API integration
+│   │   └── controller_comment.dart    # Comments API integration
+│   ├── models/          # Blueprints of digital spice
+│   │   ├── model_post.dart           # Post data structure
+│   │   └── model_comment.dart        # Comment data structure
+│   ├── pages/           # The interfaces users traverse
+│   │   ├── post_list_page.dart       # Main chronicle feed
+│   │   ├── post_detail_page.dart     # Full post visualization
+│   │   └── comment_page.dart         # Desert voices discussion
+│   └── main.dart        # The genesis file
+└── 🧪 test/             # Trials to ensure perfection
 ```
 
 ---
@@ -160,7 +188,12 @@ This project is open source and available under the [MIT License](LICENSE).
 -   The Flutter team for providing the tools to build across all platforms
 -   The open source community for their endless wisdom
 
----
+<div align="center">
+  <img src="assets/images/1.jpg" alt="Desert Vista" width="200" />
+  <img src="assets/images/2.jpg" alt="Golden Sands" width="200" />
+  <img src="assets/images/3.jpg" alt="Dune Landscape" width="200" />
+</div>
+
 
 <div align="center">
   

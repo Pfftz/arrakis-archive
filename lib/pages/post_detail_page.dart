@@ -79,6 +79,8 @@ class PostDetailPage extends StatelessWidget {
                     children: [
                       _PostHeader(post: post),
                       const SizedBox(height: 24),
+                      _PostImage(post: post), // Added image section
+                      const SizedBox(height: 24),
                       _PostContent(post: post),
                       const SizedBox(height: 32),
                       _PostActions(post: post),
@@ -91,6 +93,227 @@ class PostDetailPage extends StatelessWidget {
 
           // Floating Music Control Widget
           const MusicControlWidget(),
+        ],
+      ),
+    );
+  }
+}
+
+// New image widget for post detail
+class _PostImage extends StatefulWidget {
+  final Post post;
+
+  const _PostImage({required this.post});
+
+  @override
+  State<_PostImage> createState() => _PostImageState();
+}
+
+class _PostImageState extends State<_PostImage> {
+  bool _isImageLoading = true;
+  bool _hasImageError = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF3d2d1c),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: const Color(0xFFb29254).withValues(alpha: 0.3),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image header
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.image_outlined,
+                  color: const Color(0xFFb29254),
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Chronicle Vision',
+                  style: const TextStyle(
+                    color: Color(0xFFb29254),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Image container
+          Container(
+            width: double.infinity,
+            height: 250,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color(0xFFb29254).withValues(alpha: 0.2),
+                width: 1,
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Stack(
+                children: [
+                  // Background placeholder
+                  Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: const Color(0xFF2c1810),
+                    child: const Center(
+                      child: Icon(
+                        Icons.landscape,
+                        size: 60,
+                        color: Color(0xFFb29254),
+                      ),
+                    ),
+                  ),
+
+                  // Actual image
+                  if (!_hasImageError)
+                    Image.network(
+                      'https://picsum.photos/800/600?random=${widget.post.id}',
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (mounted) {
+                              setState(() {
+                                _isImageLoading = false;
+                              });
+                            }
+                          });
+                          return child;
+                        }
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(
+                                value:
+                                    loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                    : null,
+                                color: const Color(0xFFe79b07),
+                                strokeWidth: 3,
+                              ),
+                              const SizedBox(height: 16),
+                              const Text(
+                                'Loading desert vision...',
+                                style: TextStyle(
+                                  color: Color(0xFFb29254),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (mounted) {
+                            setState(() {
+                              _hasImageError = true;
+                              _isImageLoading = false;
+                            });
+                          }
+                        });
+                        return Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          color: const Color(0xFF2c1810),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.broken_image_outlined,
+                                size: 60,
+                                color: const Color(
+                                  0xFFb29254,
+                                ).withValues(alpha: 0.6),
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                'The sands have claimed this vision',
+                                style: TextStyle(
+                                  color: const Color(
+                                    0xFFb29254,
+                                  ).withValues(alpha: 0.8),
+                                  fontSize: 14,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+
+                  // Overlay gradient for better text readability
+                  if (!_hasImageError && !_isImageLoading)
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.7),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  // Image caption
+                  if (!_hasImageError && !_isImageLoading)
+                    Positioned(
+                      bottom: 12,
+                      left: 12,
+                      right: 12,
+                      child: Text(
+                        'Chronicle #${widget.post.id} - Vision from the deep desert',
+                        style: const TextStyle(
+                          color: Color(0xFFf5f5dc),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
         ],
       ),
     );

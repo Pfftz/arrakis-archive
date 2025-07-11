@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pemrograman_sistem_mobile/pages/comment_page.dart';
 import 'package:pemrograman_sistem_mobile/models/model_post.dart';
+import 'package:pemrograman_sistem_mobile/controllers/music_control_widget.dart';
 
 class PostDetailPage extends StatelessWidget {
   final Post post;
@@ -50,40 +51,47 @@ class PostDetailPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/3.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color.fromRGBO(44, 24, 16, 0.8),
-                Color.fromRGBO(26, 15, 8, 0.9),
-              ],
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/3.jpg'),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _PostHeader(post: post),
-                  const SizedBox(height: 24),
-                  _PostContent(post: post),
-                  const SizedBox(height: 32),
-                  _PostActions(post: post),
-                ],
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromRGBO(44, 24, 16, 0.8),
+                    Color.fromRGBO(26, 15, 8, 0.9),
+                  ],
+                ),
+              ),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _PostHeader(post: post),
+                      const SizedBox(height: 24),
+                      _PostContent(post: post),
+                      const SizedBox(height: 32),
+                      _PostActions(post: post),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+
+          // Floating Music Control Widget
+          const MusicControlWidget(),
+        ],
       ),
     );
   }

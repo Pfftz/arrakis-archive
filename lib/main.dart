@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'pages/post_list_page.dart';
+import 'controllers/audio_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,6 +12,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Initialize the audio controller
+    Get.put(AudioController());
+
     return MaterialApp(
       title: 'Dune Posts',
       debugShowCheckedModeBanner: false,

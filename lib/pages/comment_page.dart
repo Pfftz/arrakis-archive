@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pemrograman_sistem_mobile/controllers/controller_comment.dart';
 import 'package:pemrograman_sistem_mobile/models/model_comment.dart';
+import 'package:pemrograman_sistem_mobile/controllers/music_control_widget.dart';
 
 class CommentPage extends StatefulWidget {
   final int postId;
@@ -63,130 +64,137 @@ class _CommentPageState extends State<CommentPage> {
           ),
         ),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/1.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color.fromRGBO(44, 24, 16, 0.8),
-                Color.fromRGBO(26, 15, 8, 0.9),
-              ],
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/1.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromRGBO(44, 24, 16, 0.8),
+                    Color.fromRGBO(26, 15, 8, 0.9),
+                  ],
+                ),
+              ),
+              child: FutureBuilder<List<Comment>>(
+                future: futureComments,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Color(0xFFe79b07),
+                        ),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        margin: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF3d2d1c),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: const Color(0xFFb29254),
+                            width: 1,
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.error_outline,
+                              color: Color(0xFFe79b07),
+                              size: 48,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'The spice flow has been interrupted...',
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(color: const Color(0xFFe79b07)),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Error: ${snapshot.error}',
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(color: const Color(0xFFb29254)),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else if (snapshot.hasData) {
+                    final comments = snapshot.data!;
+                    return Container(
+                      constraints: const BoxConstraints(maxWidth: 600),
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(16),
+                        itemCount: comments.length,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 12),
+                        itemBuilder: (context, index) {
+                          final comment = comments[index];
+                          return _CommentCard(comment: comment, index: index);
+                        },
+                      ),
+                    );
+                  } else {
+                    return Center(
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        margin: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF3d2d1c),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: const Color(0xFFb29254),
+                            width: 1,
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.chat_bubble_outline,
+                              color: Color(0xFFb29254),
+                              size: 48,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'The desert is silent...',
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(color: const Color(0xFFe79b07)),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'No voices echo across the dunes.',
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(color: const Color(0xFFb29254)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ),
-          child: FutureBuilder<List<Comment>>(
-            future: futureComments,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Color(0xFFe79b07),
-                    ),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    margin: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF3d2d1c),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: const Color(0xFFb29254),
-                        width: 1,
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.error_outline,
-                          color: Color(0xFFe79b07),
-                          size: 48,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'The spice flow has been interrupted...',
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(color: const Color(0xFFe79b07)),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Error: ${snapshot.error}',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: const Color(0xFFb29254)),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              } else if (snapshot.hasData) {
-                final comments = snapshot.data!;
-                return Container(
-                  constraints: const BoxConstraints(maxWidth: 600),
-                  margin: const EdgeInsets.symmetric(horizontal: 8),
-                  child: ListView.separated(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: comments.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 12),
-                    itemBuilder: (context, index) {
-                      final comment = comments[index];
-                      return _CommentCard(comment: comment, index: index);
-                    },
-                  ),
-                );
-              } else {
-                return Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    margin: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF3d2d1c),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: const Color(0xFFb29254),
-                        width: 1,
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.chat_bubble_outline,
-                          color: Color(0xFFb29254),
-                          size: 48,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'The desert is silent...',
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(color: const Color(0xFFe79b07)),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'No voices echo across the dunes.',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: const Color(0xFFb29254)),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-            },
-          ),
-        ),
+
+          // Floating Music Control Widget
+          const MusicControlWidget(),
+        ],
       ),
     );
   }
